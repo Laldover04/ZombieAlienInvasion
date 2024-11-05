@@ -105,7 +105,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
         // zombies
         for (int i = 0; i < zombieArray.size(); i++) {
             Block zombie = zombieArray.get(i);
-            if (zombie.alive) {
+            if (zombie.alive && zombie.y > 0) {
                 g.drawImage(zombie.img, zombie.x, zombie.y, zombie.width, zombie.height, null);
             }
         }
@@ -142,7 +142,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
         for (int i = 0; i < zombieArray.size(); i++) {
             Block zombie = zombieArray.get(i);
             if (zombie.alive) {
-                zombie.x += zombieVelocity;
+                zombie.y += zombieVelocity;
 
                 if (zombie.x + zombie.width >= boardWidth || zombie.x <= 0) {
                     zombieVelocity *= -1;
@@ -204,7 +204,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
                 if (randomZombieIndex < zombieImgArray.size()) {// Adds a random chance to not spawn the zombie at all
                     Block zombie = new Block(
                             zombieX + c * zombieWidth,
-                            zombieY + r * zombieHeight,
+                            zombieY - (r + 1) * zombieHeight,
                             zombieWidth,
                             zombieHeight,
                             zombieImgArray.get(randomZombieIndex));
