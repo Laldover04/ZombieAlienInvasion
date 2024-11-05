@@ -242,7 +242,6 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
             gameOver = false;
             createZombies();
             gameLoop.start();
-
         }
 
         if (e.getKeyCode() == KeyEvent.VK_LEFT && peaShooter.x - peaShooterVelocityX >= 0) {
