@@ -54,7 +54,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
     int zombieRows = 2;
     int zombieColumns = 3;
     int zombieCount = 0;
-    int zombieVelocityX = 1;
+    int zombieVelocity = 1;
 
     // peas
     ArrayList<Block> peaArray;
@@ -138,14 +138,15 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
 
     public void move() {
         // zombies
+
         for (int i = 0; i < zombieArray.size(); i++) {
             Block zombie = zombieArray.get(i);
             if (zombie.alive) {
-                zombie.x += zombieVelocityX;
+                zombie.x += zombieVelocity;
 
                 if (zombie.x + zombie.width >= boardWidth || zombie.x <= 0) {
-                    zombieVelocityX *= -1;
-                    zombie.x += zombieVelocityX * 2;
+                    zombieVelocity *= -1;
+                    zombie.x += zombieVelocity * 2;
 
                     for (int j = 0; j < zombieArray.size(); j++) {
                         zombieArray.get(j).y += zombieHeight / 2;
@@ -189,7 +190,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
             zombieRows = Math.min(zombieRows + 1, rows / 2 - 2);
             zombieArray.clear();
             peaArray.clear();
-            zombieVelocityX = 1;
+            zombieVelocity = 1;
             createZombies();
         }
 
@@ -199,14 +200,16 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
         Random random = new Random();
         for (int r = 0; r < zombieRows; r++) {
             for (int c = 0; c < zombieColumns; c++) {
-                int randomImgIndex = random.nextInt(zombieImgArray.size());
-                Block zombie = new Block(
-                        zombieX + c * zombieWidth,
-                        zombieY + r * zombieHeight,
-                        zombieWidth,
-                        zombieHeight,
-                        zombieImgArray.get(randomImgIndex));
-                zombieArray.add(zombie);
+                int randomZombieIndex = random.nextInt(zombieImgArray.size() + 1); // + 1 for the next line.
+                if (randomZombieIndex < zombieImgArray.size()) {// Adds a random chance to not spawn the zombie at all
+                    Block zombie = new Block(
+                            zombieX + c * zombieWidth,
+                            zombieY + r * zombieHeight,
+                            zombieWidth,
+                            zombieHeight,
+                            zombieImgArray.get(randomZombieIndex));
+                    zombieArray.add(zombie);
+                }
             }
         }
         zombieCount = zombieArray.size();
@@ -236,7 +239,7 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
             zombieArray.clear();
             peaArray.clear();
             score = 0;
-            zombieVelocityX = 1;
+            zombieVelocity = 1;
             zombieColumns = 3;
             zombieRows = 2;
             gameOver = false;
