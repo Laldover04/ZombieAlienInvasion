@@ -139,19 +139,19 @@ public class ZombieAlienInvasion extends JPanel implements ActionListener, KeyLi
     public void move() {
         // zombies
 
+        Random random = new Random();
         for (int i = 0; i < zombieArray.size(); i++) {
             Block zombie = zombieArray.get(i);
             if (zombie.alive) {
-                zombie.y += zombieVelocity;
-
-                if (zombie.x + zombie.width >= boardWidth || zombie.x <= 0) {
-                    zombieVelocity *= -1;
-                    zombie.x += zombieVelocity * 2;
-
-                    for (int j = 0; j < zombieArray.size(); j++) {
-                        zombieArray.get(j).y += zombieHeight / 2;
-                    }
+                if (random.nextInt(3) == 0) {
+                    zombie.y += zombieVelocity;
+                    if (zombie.x - 2 * zombieVelocity > 0)
+                        zombie.x -= 2 * zombieVelocity;
+                } else if (zombie.x + zombieVelocity + zombie.width < boardWidth) {
+                    zombie.x += zombieVelocity;
                 }
+
+                zombie.y += zombieVelocity;
 
                 // game over
                 if (zombie.y + peaShooter.height >= peaShooter.y) {
